@@ -24,12 +24,13 @@ def train():
     # Evaluate
     y_pred   = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
-    print(f"[TRAIN] Logistic Regression Accuracy: {accuracy * 100:.2f}%")
+    print(f"[TRAIN] ✔ Logistic Regression Test Accuracy: {accuracy * 100:.2f}%")
 
     # Persist model
     os.makedirs(MODEL_DIR, exist_ok=True)
     joblib.dump(model, MODEL_PATH)
-    print(f"[TRAIN] Model saved successfully → {MODEL_PATH}")
+    print(f"[TRAIN] ✔ Model artifact persisted → {MODEL_PATH}")
+    print("[TRAIN] Training pipeline complete.")
 
 if __name__ == "__main__":
     train()
