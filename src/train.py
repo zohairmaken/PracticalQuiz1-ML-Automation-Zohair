@@ -17,8 +17,8 @@ def train():
     y_train = pd.read_csv(f"{PROC_DIR}/y_train.csv").values.ravel()
     y_test  = pd.read_csv(f"{PROC_DIR}/y_test.csv").values.ravel()
 
-    # Train Logistic Regression with increased max_iter for convergence
-    model = LogisticRegression(max_iter=500, random_state=42)
+    # Train Logistic Regression (feature-ml: tuned hyperparameters)
+    model = LogisticRegression(max_iter=1000, random_state=42, C=1.0, solver='lbfgs')
     model.fit(X_train, y_train)
 
     # Evaluate
