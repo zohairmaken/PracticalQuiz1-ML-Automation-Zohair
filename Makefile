@@ -5,24 +5,29 @@
 
 PYTHON = python
 
-# Default target: run full pipeline
-.PHONY: all preprocess train clean
+.PHONY: all preprocess train evaluate clean
 
-all: preprocess train
+# Run full pipeline sequentially
+all: preprocess train evaluate
 	@echo "============================================"
-	@echo " Full pipeline completed successfully."
+	@echo " Full ML pipeline completed successfully."
 	@echo "============================================"
 
 preprocess:
 	@echo "[MAKE] Running data preprocessing..."
 	$(PYTHON) src/preprocess.py
 
-train: preprocess
+train:
 	@echo "[MAKE] Running model training..."
 	$(PYTHON) src/train.py
 
+evaluate:
+	@echo "[MAKE] Running model evaluation..."
+	$(PYTHON) src/evaluate.py
+
 clean:
-	@echo "[MAKE] Cleaning processed data and models..."
+	@echo "[MAKE] Cleaning generated files..."
 	-rm -rf data/processed/*.csv
 	-rm -rf models/*.pkl
+	-rm -rf results/metrics.txt
 	@echo "[MAKE] Clean complete."

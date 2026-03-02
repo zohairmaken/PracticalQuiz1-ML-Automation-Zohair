@@ -17,20 +17,25 @@ def train():
     y_train = pd.read_csv(f"{PROC_DIR}/y_train.csv").values.ravel()
     y_test  = pd.read_csv(f"{PROC_DIR}/y_test.csv").values.ravel()
 
-    # Train Logistic Regression with increased max_iter for convergence
-    model = LogisticRegression(max_iter=500, random_state=42)
+    print(f"[TRAIN] Training samples: {len(X_train)} | Test samples: {len(X_test)}")
+
+    # Train Logistic Regression
+    model = LogisticRegression(max_iter=1000, random_state=42)
     model.fit(X_train, y_train)
 
-    # Evaluate
-    y_pred   = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f"[TRAIN] ✔ Logistic Regression Test Accuracy: {accuracy * 100:.2f}%")
+    # Training accuracy
+    train_accuracy = accuracy_score(y_train, model.predict(X_train))
+    print(f"[TRAIN] Training Accuracy: {train_accuracy * 100:.2f}%")
 
-    # Persist model
+    # Test accuracy (quick check during training)
+    test_accuracy = accuracy_score(y_test, model.predict(X_test))
+    print(f"[TRAIN] Test Accuracy:     {test_accuracy * 100:.2f}%")
+
+    # Save model
     os.makedirs(MODEL_DIR, exist_ok=True)
     joblib.dump(model, MODEL_PATH)
-    print(f"[TRAIN] ✔ Model artifact persisted → {MODEL_PATH}")
-    print("[TRAIN] Training pipeline complete.")
+    print(f"[TRAIN] Model saved -> {MODEL_PATH}")
+    print("[TRAIN] DONE: Training complete.")
 
 if __name__ == "__main__":
     train()
